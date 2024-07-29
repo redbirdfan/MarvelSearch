@@ -1,25 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
+import CharacterSearch from './CharacterSearch';
+import Footer from './Footer';
 
 function App() {
   return (
+    <div>
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <img src={'https://th.bing.com/th/id/OIP.xAqsO4tSd4CHsXjh28-mMAHaEK?rs=1&pid=ImgDetMain'} className="Marvel-logo" alt="logo" />
+
       </header>
+      <CharacterSearch />
     </div>
+      <Footer />
+    </div>
+
   );
+  
 }
 
 export default App;
