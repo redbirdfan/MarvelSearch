@@ -1,21 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
-import CharacterSearch from './CharacterSearch';
-import Footer from './Footer';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import MarvelCharacterSearch from './MarvelCharacterSearch';
+import PokemonCharacterSearch from './PokemonCharacterSearch';
+import HomePage from './HomePage';
+
+
 
 function App() {
   return (
     <div>
-    <div className="App">
-      <header className="App-header">
-        <img src={'https://th.bing.com/th/id/OIP.xAqsO4tSd4CHsXjh28-mMAHaEK?rs=1&pid=ImgDetMain'} className="Marvel-logo" alt="logo" />
-
-      </header>
-      <CharacterSearch />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/marvelCharacterSearch" element={<MarvelCharacterSearch />} />
+        <Route path="/pokemonSearch" element={<PokemonCharacterSearch />} />
+      </Routes>
     </div>
-      <Footer />
-    </div>
-
   );
   
 }

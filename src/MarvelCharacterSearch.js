@@ -3,14 +3,14 @@ import axios from 'axios';
 import cryptoJS from 'crypto-js';
 
 
-function CharacterSearch() { 
-    const [characterData, setCharacterData] = useState();
+function MarvelCharacterSearch() { 
+    const [characterData, setCharacterData] = useState(null);
     const [characterName, setCharacterName] = useState('')
     const [err, setErr] = useState()
     const [imgURL, setImgURL] = useState()
     const [wikiURLs, setWikiURLs] = useState({})
 
-    const characterFinder = async (res, err) => {
+    const marvelCharacterFinder = async (res, err) => {
         console.log('attempting to connect to Marvel API')
         
         const publicKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
@@ -30,27 +30,32 @@ function CharacterSearch() {
                 setWikiURLs(characterData[0].urls)
             } else {
                 console.log('Character not found');
-                setCharacterData(null);
+
             }    
             console.log(characterData)
         } catch(err) {
+            
             console.error("Our character is in another castle!", err.response ? err.response.data : err.message);
         }
     };
 
     return (
         <div>
+            <header className="App-header">
+                <img src={'https://th.bing.com/th/id/OIP.xAqsO4tSd4CHsXjh28-mMAHaEK?rs=1&pid=ImgDetMain'} className="Marvel-logo" alt="logo" />
+            </header>
+            
             <input type="text" 
              value={characterName} 
              onChange={(event) => setCharacterName(event.target.value)}
              placeholder="Enter Character Name"
              />
         
-            <button onClick={characterFinder}>Search Character Name</button>
+            <button onClick={marvelCharacterFinder}>Search Character Name</button>
             <div>
 
-            {characterData != null &&
-                <div style={{display: 'flex', alignItems: 'center'}}>
+            {characterName != '' &&
+                <div style={{display: 'flex', alignItems: 'center'}}>        
                 <div style={{flex:'1', marginRight: '20px'}}>            
                     <img style={{padding: '10px', borderBlockColor: 'black'}} src= {(characterData[0].thumbnail.path)+'/standard_fantastic.jpg'} alt={'No Pic Available'}></img>    
                 </div>
@@ -66,10 +71,14 @@ function CharacterSearch() {
                     <p>Character not found.  Please check your spelling.</p>
                 </div>
             } 
-        </div>
-    </div>    
+        </div>    
+               <div style={{display:'flex', justifyContent: 'center', alignItems: 'center', width:'100%', position: 'fixed', bottom: 0, backgroundColor: "white"}}>
+                <p>©2024 MARVEL</p>
+               </div>
+        </div>       
+        
     );
 }
 
 
-export default CharacterSearch;
+export default MarvelCharacterSearch;
