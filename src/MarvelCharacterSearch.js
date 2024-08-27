@@ -62,7 +62,7 @@ function MarvelCharacterSearch() {
                 <div style={{flex:2, alignItems: 'center'}}>    
                     <h2 style={{marginRight: '100px'}}>{characterData[0].name}</h2>
                     <p style={{marginRight: '100px'}}>{characterData[0].description}</p>
-                    <a style={{marginRight: '100px'}} href={characterData[0].urls[2].url}>Comics</a>
+                    <a style={{marginRight: '100px'}} href={characterData[0].urls[2].url} target="_blank">Comics</a>
                 </div>
             </div>
             }     
