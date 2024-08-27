@@ -4,7 +4,7 @@ import cryptoJS from 'crypto-js';
 
 
 function MarvelCharacterSearch() { 
-    const [characterData, setCharacterData] = useState(null);
+    const [characterData, setCharacterData] = useState();
     const [characterName, setCharacterName] = useState('')
     const [err, setErr] = useState()
     const [imgURL, setImgURL] = useState()
@@ -17,19 +17,20 @@ function MarvelCharacterSearch() {
         const privateKey = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
         const ts = new Date().getTime().toString();
         const hash = cryptoJS.MD5(ts + privateKey + publicKey).toString();
-        const searchUrl = `https://gateway.marvel.com/v1/public/characters?name=${encodeURIComponent(characterName)}&ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+        const searchUrl = `https://gateway.marvel.com/v1/public/characters?name=${(characterName)}&ts=${ts}&apikey=${publicKey}&hash=${hash}`;
     
         try {
             const res = await axios.get(searchUrl);
 
             const data = res.data.data.results;
             console.log("Character found")
-            if(data) {
+            if(data.length > 0) {
                 setCharacterData(data);
                 setImgURL(characterData[0].thumbnail[0])
                 setWikiURLs(characterData[0].urls)
             } else {
                 console.log('Character not found');
+                setCharacterData(null)
 
             }    
             console.log(characterData)
@@ -53,8 +54,7 @@ function MarvelCharacterSearch() {
         
             <button onClick={marvelCharacterFinder}>Search Character Name</button>
             <div>
-
-            {characterName != '' &&
+            {characterData != null &&
                 <div style={{display: 'flex', alignItems: 'center'}}>        
                 <div style={{flex:'1', marginRight: '20px'}}>            
                     <img style={{padding: '10px', borderBlockColor: 'black'}} src= {(characterData[0].thumbnail.path)+'/standard_fantastic.jpg'} alt={'No Pic Available'}></img>    
@@ -64,8 +64,8 @@ function MarvelCharacterSearch() {
                     <p style={{marginRight: '100px'}}>{characterData[0].description}</p>
                     <a style={{marginRight: '100px'}} href={characterData[0].urls[2].url}>Comics</a>
                 </div>
-            </div>     
-            } 
+            </div>
+            }     
             {characterData === null &&
                 <div>
                     <p>Character not found.  Please check your spelling.</p>
