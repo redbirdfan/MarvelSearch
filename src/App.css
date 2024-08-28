@@ -28,4 +28,63 @@
   color: #61dafb;
 }
 
+.input-arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display:inline-block;
+  padding: 3px;
+  transform: translateY(45deg);
+  -webkit-transform: rotate(45deg);  
+}
 
+.input-arrow-container {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: -2px;
+  cursor: pointer;
+  width: 10px;
+}
+
+.dropdown-container input {
+  width: 100%;
+  padding: 0;
+  border-width: 1px;
+  height: 22px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+
+}
+
+.dropdown-container {
+  width: 175px;
+  position: relative;
+}
+
+.option {
+  height: 10px;
+  border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  cursor: pointer;
+  background-color: darkgray;
+}
+
+.option:hover {
+  background-color: lightgray;
+}
+
+.dropdown {
+  border: 1px solid black;
+  border-bottom: none;
+  box-sizing: 100%;
+  position: absolute;
+  width: 100%;
+}
