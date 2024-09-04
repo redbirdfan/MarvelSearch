@@ -4,41 +4,14 @@ import cryptoJS from 'crypto-js';
 import App from './App.css'
 
 function MarvelCharacterSearch() { 
-    const [characterList, setCharacterList] = useState([])
+    
     const [characterData, setCharacterData] = useState();
-    const [characterName, setCharacterName] = useState('')
+    const [characterName, setCharacterName] = useState(null)
     const [err, setErr] = useState()
     const [imgURL, setImgURL] = useState()
     const [wikiURLs, setWikiURLs] = useState({})
 
-
     
-    const marvelCharacterDropdown = async (res, err) => {
-        console.log('gathering character options')
-
-        
-        const publicKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
-        const privateKey = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
-        const ts = new Date().getTime().toString();
-        const hash = cryptoJS.MD5(ts + privateKey + publicKey).toString();
-        const searchUrl = `https://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
-        
-        try {
-            const res = await axios.get(searchUrl);
-            const dataList = res.data.data.results;
-            console.log(dataList);
-            console.log("Character list found")
-            console.log(dataList);
-            setCharacterList(dataList)
-            
-        } catch(err) {
-            
-            console.error("Our options list is EMPTY!", err.response ? err.response.data : err.message);
-        }
-    };
-
-    
-
     const marvelCharacterFinder = async (res, err) => {
         console.log('attempting to connect to Marvel API')
         
@@ -46,9 +19,11 @@ function MarvelCharacterSearch() {
         const privateKey = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
         const ts = new Date().getTime().toString();
         const hash = cryptoJS.MD5(ts + privateKey + publicKey).toString();
-        const searchUrl = `https://gateway.marvel.com/v1/public/characters?name=${(characterName)}&ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+        const searchUrl = `https://gateway.marvel.com/v1/public/characters?name=${characterName}&ts=${ts}&apikey=${publicKey}&hash=${hash}`;
     
         try {
+            
+            console.log(characterName)
             const res = await axios.get(searchUrl);
 
             const data = res.data.data.results;
@@ -59,7 +34,7 @@ function MarvelCharacterSearch() {
                 setWikiURLs(characterData[0].urls)
             } else {
                 console.log('Character not found');
-                setCharacterData(0)
+                setCharacterData(null)
 
             }    
             console.log(characterData)
@@ -74,37 +49,23 @@ function MarvelCharacterSearch() {
             <header className="App-header">
                 <img src={'https://th.bing.com/th/id/OIP.xAqsO4tSd4CHsXjh28-mMAHaEK?rs=1&pid=ImgDetMain'} className="Marvel-logo" alt="logo" />
             </header>
-        <div className='dropdown-container'>
-            <div className='input-container'>
+        
+            <div className='Search-placement'>
                 <input 
+                    
                     type="text" 
                     value={characterName} 
                     onChange={(event) => setCharacterName(event.target.value)}
                     placeholder="Enter Character Name"
                 />
             
-                <div className='input-arrow-container' onClick={marvelCharacterDropdown}>
-                    <i className='input-arrow'/>
-                </div>    
-            </div>        
-        </div>
-        <div>
+               
+        <div className='Search-placement'>
             <button onClick={marvelCharacterFinder} style={{'width':175}}>Search Character Name</button> 
         </div>
-        <div className='dropdown'>
-            {characterList.map(name => {
-                return(
-                <div 
-                    key={name} 
-                    className='option'
-                >
-                    {name.value}
-                </div>
-            )})}
-        </div>
-
+        
             <div>
-            {characterData != null &&
+            {characterData &&
                 <div style={{display: 'flex', alignItems: 'center'}}>        
                 <div style={{flex:'1', marginRight: '20px'}}>            
                     <img style={{padding: '10px', borderBlockColor: 'black'}} src= {(characterData[0].thumbnail.path)+'/standard_fantastic.jpg'} alt={'No Pic Available'}></img>    
@@ -116,7 +77,7 @@ function MarvelCharacterSearch() {
                 </div>
             </div>
             }     
-            {characterData === null &&
+            {characterData == null &&
                 <div>
                     <p>Character not found.  Please check your spelling.</p>
                 </div>
@@ -126,7 +87,7 @@ function MarvelCharacterSearch() {
                 <p>©2024 MARVEL</p>
                </div>
         </div>       
-        
+     </div> 
     );
 }
 
